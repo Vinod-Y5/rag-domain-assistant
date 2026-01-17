@@ -1,6 +1,11 @@
 import streamlit as st
-import os
 from rag import RAGEngine
+import os
+import subprocess
+
+if not os.path.exists("data/index.faiss"):
+    subprocess.run(["python", "ingest.py"], check=True)
+
 
 st.set_page_config(page_title="Domain RAG Assistant", layout="centered")
 st.title("Domain-Specific RAG Assistant")
@@ -19,3 +24,4 @@ if question:
     with st.spinner("Retrieving and generating..."):
         answer = engine.generate(question)
         st.markdown(answer)
+
