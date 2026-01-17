@@ -13,7 +13,13 @@ class RAGEngine:
             "sentence-transformers/all-MiniLM-L6-v2"
         )
 
-        self.index = faiss.read_index(INDEX_PATH)
+        if not os.path.exists(INDEX_PATH):
+    raise RuntimeError(
+        "FAISS index not found. Please run ingest.py to build the index."
+    )
+
+self.index = faiss.read_index(INDEX_PATH)
+
 
         with open(CHUNKS_PATH, "r", encoding="utf-8") as f:
             self.chunks = [line.strip() for line in f.readlines()]
@@ -62,3 +68,4 @@ Answer:
         )
 
         return response.choices[0].message.content
+
