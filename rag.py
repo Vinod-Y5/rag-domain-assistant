@@ -1,3 +1,4 @@
+import os
 import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
@@ -13,13 +14,13 @@ class RAGEngine:
             "sentence-transformers/all-MiniLM-L6-v2"
         )
 
+        # Safety check for FAISS index
         if not os.path.exists(INDEX_PATH):
-    raise RuntimeError(
-        "FAISS index not found. Please run ingest.py to build the index."
-    )
+            raise RuntimeError(
+                "FAISS index not found. Please run ingest.py to build the index."
+            )
 
-self.index = faiss.read_index(INDEX_PATH)
-
+        self.index = faiss.read_index(INDEX_PATH)
 
         with open(CHUNKS_PATH, "r", encoding="utf-8") as f:
             self.chunks = [line.strip() for line in f.readlines()]
@@ -36,7 +37,6 @@ self.index = faiss.read_index(INDEX_PATH)
 
     def generate(self, query):
         context_chunks = self.retrieve(query)
-
         context = "\n".join(context_chunks)
 
         prompt = f"""
@@ -68,4 +68,3 @@ Answer:
         )
 
         return response.choices[0].message.content
-
