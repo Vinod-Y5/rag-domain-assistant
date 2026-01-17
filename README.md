@@ -1,28 +1,44 @@
-# Domain-Specific RAG Assistant
+# Domain-Specific RAG Assistant (Deployed)
 
-This project implements a Retrieval-Augmented Generation (RAG) system that answers questions using a custom knowledge base.
+A deployed **Retrieval-Augmented Generation (RAG)** application that answers questions using a custom domain knowledge base by combining semantic retrieval with open-source language models.
+
+---
+
+## 🔗 Live App
+👉 **Live Demo:** https://rag-domain-assistant-3xjp8q2nttmrgwvxnxdpkm.streamlit.app/
+
+---
 
 ## Overview
-The system retrieves relevant domain-specific context using semantic search and injects it into the prompt before generation, reducing hallucinations and improving factual accuracy.
+
+This project implements a domain-specific RAG system to improve factual accuracy and reduce hallucinations in language model outputs.  
+Instead of relying solely on a language model’s internal knowledge, relevant context is retrieved from a knowledge base and injected into the prompt before generation.
+
+The application is deployed on Streamlit Cloud and automatically builds its vector index at startup, making it cloud-safe and stateless.
+
+---
 
 ## Architecture
-- Sentence-Transformers for text embeddings
-- FAISS for vector similarity search
-- Open-source LLM via HuggingFace Inference API
-- Streamlit for the user interface
+
+- **Embeddings:** Sentence-Transformers (`all-MiniLM-L6-v2`)
+- **Vector Store:** FAISS (local similarity search)
+- **LLM:** Open-source chat-based model via Hugging Face Inference API
+- **Frontend:** Streamlit
+- **Deployment:** Streamlit Community Cloud
+
+---
 
 ## Workflow
-1. Ingest domain text and generate embeddings
-2. Store embeddings in a FAISS index
-3. Retrieve relevant chunks for a user query
-4. Inject retrieved context into the prompt
-5. Generate grounded responses using an LLM
 
-## Tech Stack
-Python, FAISS, Sentence-Transformers, HuggingFace, Streamlit
+1. Load domain-specific text from a knowledge base
+2. Split text into chunks
+3. Generate embeddings for each chunk
+4. Store embeddings in a FAISS index
+5. Retrieve relevant chunks for a user query
+6. Inject retrieved context into the prompt
+7. Generate a grounded response using an LLM
 
-## How to Run
-```bash
-pip install -r requirements.txt
-python ingest.py
-streamlit run app.py
+---
+
+## Project Structure
+
