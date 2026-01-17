@@ -1,12 +1,14 @@
 from sentence_transformers import SentenceTransformer
 import faiss
-import os
 import numpy as np
+import os
 
 DATA_PATH = "data/knowledge.txt"
 INDEX_PATH = "data/index.faiss"
+CHUNKS_PATH = "data/chunks.txt"
 
-def ingest():
+
+def build_index():
     with open(DATA_PATH, "r", encoding="utf-8") as f:
         text = f.read()
 
@@ -21,12 +23,10 @@ def ingest():
 
     faiss.write_index(index, INDEX_PATH)
 
-    # save chunks
-    with open("data/chunks.txt", "w", encoding="utf-8") as f:
+    with open(CHUNKS_PATH, "w", encoding="utf-8") as f:
         for c in chunks:
             f.write(c + "\n")
 
-    print("Ingestion complete.")
 
 if __name__ == "__main__":
-    ingest()
+    build_index()
