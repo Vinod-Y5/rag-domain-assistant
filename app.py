@@ -1,10 +1,12 @@
+import os
 import streamlit as st
 from rag import RAGEngine
-import os
-import subprocess
+from ingest import build_index
 
+
+# Build FAISS index on first run (cloud-safe)
 if not os.path.exists("data/index.faiss"):
-    subprocess.run(["python", "ingest.py"], check=True)
+    build_index()
 
 
 st.set_page_config(page_title="Domain RAG Assistant", layout="centered")
@@ -24,4 +26,3 @@ if question:
     with st.spinner("Retrieving and generating..."):
         answer = engine.generate(question)
         st.markdown(answer)
-
